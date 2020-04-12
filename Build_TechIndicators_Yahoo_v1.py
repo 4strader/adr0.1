@@ -440,3 +440,4 @@ main_method('1994-01-01', '2020-04-08', '2020-04-06', 'N', '1994-12-29', 'Yahoo_
 """Hist St Date, Hist End Date, Hist End Date2(this is reqd because of the SQL query taking Hist End Date-1 and next day calculations), 
 DB Write, cutoff date ( because of indicators nan values), file name with valid data dates, tradeside"""
 #
+# nxt version
