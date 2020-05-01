@@ -22,59 +22,59 @@ dates_df = pd.DataFrame()
 
 def get_sqlcolumns_list():
     list = [
-        'date',#common
-        'ticker',#common
+        'date',  # common
+        'ticker',  # common
         # 'open',
         # 'high',
         # 'low',
-        'close', #common
+        'close',  # common
         # 'volume',
-        'w_streak',#S1
-        'l_streak',#S2,L3
-        'nextOpen',#common
+        'w_streak',  # S1
+        'l_streak',  # S2
+        'nextOpen',  # common
         # 'nextClose',
         # 'next_OPCPerc',
-        'next_COPerc',#common
+        'next_COPerc',  # common
         # 'next_CCPerc',
         # 'avgvol10',
         # 'avgvol50',
-        'atr5',#common
-        'natr5',#common
+        'atr5',  # common
+        'natr5',  # common
         # 'natr10',
-        'natr50',#L1
-        'roc3',#S6
-        'roc6',#S2
+        'natr50',
+        'roc3',  # S6
+        'roc6',  # L1,#S2
         # 'roc10',
         # 'roc20',
-        # 'roc50',
-        # 'roc200',
-        'rsi3',#S1
+        'roc50',
+        'roc200',
+        'rsi3',  # S1,#L1
         # 'rsi10',
-        'rsi4',#S6,L3
-        'rsi14',#L7
-        'sma5',#S6
+        'rsi4',  # L2
+        'rsi14',  # L3
+        'sma5',  # S6
         # 'sma7',
         # 'sma10',
         # 'sma14',
         # 'sma25',
         # 'sma50',
-        'sma100',#common, L3
+        'sma100',  # common
         # 'sma150',
         # 'sma200',
         # 'ema5',
-        'ema7',#L8
+        # 'ema7',
         # 'ema10',
-        'ema14',#L8
+        # 'ema14',
         # 'ema25',
         # 'ema50',
-        'ema100',
+        'ema100',#L1
         # 'ema150',
         # 'ema200',
         # 'adx5',
-        'adx7',#s1,L3
-        # 'adx14',
-        'percBB5',#L7
-        # 'percBB14',
+        'adx7',  # s1,L1
+        'adx14',#L4,S4
+        'percBB5',  # L3
+        'percBB14',#L4,S4
         # 'max5',
         # 'min5',
         # 'max14',
@@ -85,18 +85,18 @@ def get_sqlcolumns_list():
         # 'min200',
         # 'max252',
         # 'min252',
-        'SPYClose',#common
+        'SPYClose',  # common
         # 'SPYNext_OPCPerc',#common
-        'SPYNext_COPerc',#common
-        'SPYNext_CCPerc',#common
-        'FVNextOpen',#common
+        'SPYNext_COPerc',  # common
+        'SPYNext_CCPerc',  # common
+        'FVNextOpen',  # common
         # 'SPYsma5',
         # 'SPYsma7',
         # 'SPYsma10',
         # 'SPYsma14',
         # 'SPYsma25',
         # 'SPYsma50',
-        'SPYsma100',#L7
+        # 'SPYsma100',
         # 'SPYsma200',
         # 'SPYema5',
         # 'SPYema7',
@@ -104,42 +104,15 @@ def get_sqlcolumns_list():
         # 'SPYema14',
         # 'SPYema25',
         # 'SPYema50',
-        'SPYema100',#S6
+        'SPYema100',  # S6
         # 'SPYema200',
         # 'shortsOrderPrice',#common
         # 'longsOrderPrice'#common
-
     ]
     return list
 
 def get_FV_OpenStats(df, hist_st_date, hist_end_date):
-    # conn = sqlite3.connect("NewDatabase.db")
-    # conn = sqlite3.connect("TradeSystem.db")
-    # conn.text_factory = lambda b: b.decode(errors='ignore')
-    # start = timer()
-    #
-    # df_chunks = pd.read_sql_query(
-    #     # 'select Date, symbol, Open, High, Low, Close, Volume from NYSE_NASDAQ_AMEX_Stocks_Yahoo_MSTR2 where date >= (?) and date <= (?)',
-    #     # 'select date, ticker, open, high, low, close, volume from SHRDR_STOCKHISTORY_TBL_v1 where date >= (?) and date <= (?)',
-    #     # 'select date, ticker, FVNextOpen, nextOpen, next_COPerc, SPYNext_OPCPerc, SPYNext_COPerc, SPYNext_CCPerc from Technical_Indicators_Master418 where date >= (?) and date <= (?)',
-    #     # 'select date, ticker, FVNextOpen, nextOpen, next_COPerc, SPYNext_OPCPerc, SPYNext_COPerc, SPYNext_CCPerc from Technical_Indicators_Yahoo_Master418 where date >= (?) and date <= (?)',
-    #     'select date, ticker, FVNextOpen, nextOpen, next_COPerc, SPYNext_OPCPerc, SPYNext_COPerc, SPYNext_CCPerc from Technical_Indicators_SHRDR_Master_TBL where date >= (?) and date <= (?)',
-    #     conn, params=(hist_st_date, hist_end_date), chunksize=1000000)
-    # df = chunks_to_df(df_chunks)
-    # print('DB record size', df.shape[0])
-    # # df['date'] = df['Date']
-    # # df['open'] = df['Open']
-    # # df['close'] = df['Close']
-    # # df['high'] = df['High']
-    # # df['low'] = df['Low']
-    # # df['volume'] = df['Volume']
-    # # df['ticker'] = df['symbol']
-    # # df = df.drop(columns=['Open','Close','High','Low','Volume','symbol','Date'])
-    # conn.close()
-    # # print('Query NYSE_NASDAQ_AMEX_Stocks_Yahoo_MSTR2 time', timer() - start)
-    # # print('Query Stock Open Close Table time', timer() - start)
-    # df['date'] = pd.to_datetime(df['date'], infer_datetime_format=True)
-    #
+
     uniqueDates_df = pd.DataFrame()
     uniqueDates_df['date'] = df['date'].unique()
     list = []
@@ -492,7 +465,6 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     df['SPY_CO_Perc'] = df['date'].map(uniquedates_df.set_index('date')['SPY_CO_Perc'])
     # df['SPY_OPC_Perc'] = df['date'].map(uniquedates_df.set_index('date')['SPY_OPC_Perc'])
 
-
     fvStats_df = df.copy(deep=True)
     df = df[df['next_COPerc']<100]
     df = df.dropna(subset=['sma100'])
@@ -511,45 +483,6 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     # df['shortsOrderPrice'] = df[['FVNextOpen', 'close']].apply(max, axis=1)
     # df['longsOrderPrice'] = df[['FVNextOpen', 'close']].apply(min, axis=1)
 
-    '''Strategy L3 Medium Trend Low Vol MR'''
-    setupCondition = ( (df['natr50'] < 3)  & (df['close'] > df['sma100'])& (df['l_streak'] >=1 )& (df['adx7'] >65 ))
-    setups_df = df[setupCondition].copy(deep=True)
-    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
-    setups_df['strategy'] = 'L3'
-    setups_df['rank'] = setups_df.groupby('date')['rsi4'].rank('dense', ascending=True)
-    setups_df['longsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
-    setups_df = setups_df[setups_df['rank'] < 21]
-    posistions_bydate_dfL3 = get_positions_bydate(capital, setups_df, 'Long')
-     #
-    '''Strategy L6 MR Contrarian'''
-    setupCondition = ( (df['rsi3'] < 30) & (df['close'] > df['ema100']) & (df['adx7'] > 45) )
-    setups_df = df[setupCondition].copy(deep=True)
-    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
-    setups_df['strategy'] = 'L6'
-    setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=True)
-    setups_df['longsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
-    setups_df = setups_df[setups_df['rank'] < 21]
-    posistions_bydate_dfL6 = get_positions_bydate(capital, setups_df, 'Long')
-    #
-    '''Strategy L7 Stay with the Trend'''#&(df['SPYClose'] > df['SPYsma100'])&
-    setupCondition = ((df['rsi14'] > 70) & (df['rsi4'] > 80)&  (df['roc6'] > 1) )
-    setups_df = df[setupCondition].copy(deep=True)
-    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
-    setups_df['strategy'] = 'L7'
-    setups_df['rank'] = setups_df.groupby('date')['percBB5'].rank('dense', ascending=True)
-    setups_df = setups_df[setups_df['rank'] < 21]
-    posistions_bydate_dfL7 = get_positions_bydate(capital, setups_df, 'Long')
-    #
-    '''Strategy L8 catch quick trends'''
-    setupCondition = ((df['close'] > df['sma5']) & (df['rsi4'] > 50) & (df['SPYClose'] > df['SPYema100'])&(df['roc3']<40) )
-    # setupCondition = ((df['ema7'] > df['ema14']) &  (df['w_streak'] ==1 ) )
-    setups_df = df[setupCondition].copy(deep=True)
-    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
-    setups_df['strategy'] = 'L8'
-    setups_df['rank'] = setups_df.groupby('date')['roc3'].rank('dense', ascending=False)
-    setups_df = setups_df[setups_df['rank'] < 21]
-    posistions_bydate_dfL8 = get_positions_bydate(capital, setups_df, 'Long')
-
     '''Strategy S1 MR Short RSI Thrust'''
     setupCondition = ( (df['rsi3'] > 90) & (df['w_streak'] >= 4) )
     setups_df = df[setupCondition].copy(deep=True)
@@ -557,8 +490,19 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     setups_df['strategy'] = 'S1'
     setups_df['rank'] = setups_df.groupby('date')['adx7'].rank('dense', ascending=False)
     setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
+    diagnosis_df = setups_df
     setups_df = setups_df[setups_df['rank'] < 21]
     posistions_bydate_dfS1 = get_positions_bydate(capital, setups_df, 'Short')
+
+    '''Strategy L1 OverSold Condition Reversal'''
+    setupCondition = ( (df['rsi3'] < 30) & (df['close'] > df['ema100']) & (df['adx7'] > 45) )
+    setups_df = df[setupCondition].copy(deep=True)
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    setups_df['strategy'] = 'L1'
+    setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=True)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfL1 = get_positions_bydate(capital, setups_df, 'Long')
 
     '''Strategy S2 MR Contrarian '''
     setupCondition =  ((df['l_streak'] >= 1)&(df['roc6'] > 10)&((df['SPY_CC_Perc'] >-.2)|(df['SPY_CO_Perc'] >-.2))&(df['close']>10))
@@ -566,44 +510,112 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Short', setups_df)
     setups_df['strategy'] = 'S2'
     setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=False)
+    setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
     setups_df = setups_df[setups_df['rank'] < 21]
     posistions_bydate_dfS2 = get_positions_bydate(capital, setups_df, 'Short')
 
-    '''Strategy S3 Low Price Stock Sell Off'''
-    setupCondition = ( (df['roc6']>10) & (df['close'] < 15)&(df['w_streak'] >= 4))
+    '''Strategy L2 Medium Trend Low Vol MR'''
+    setupCondition = ( (df['natr50'] < 3)  & (df['close'] > df['sma100'])& (df['l_streak'] >=1 )& (df['adx7'] >65 ))
     setups_df = df[setupCondition].copy(deep=True)
-    setups_df = get_shares_perPosition(maxCapPerPos, 100, 'Short', setups_df)
-    setups_df['strategy'] = 'S3'
-    setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=False)
-    setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
-    setups_df = setups_df[setups_df['rank'] < 11]
-    posistions_bydate_dfS3 = get_positions_bydate(capital, setups_df, 'Short')
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    setups_df['strategy'] = 'L2'
+    setups_df['rank'] = setups_df.groupby('date')['rsi4'].rank('dense', ascending=True)
+    setups_df['longsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfL2 = get_positions_bydate(capital, setups_df, 'Long')
 
-    '''Strategy S6 TR Sell Weakness'''
+    '''Strategy S3 TR Sell Weakness'''
     setupCondition = ((df['close'] < df['sma5']) & (df['rsi4']<50) & (df['SPYClose']>df['SPYema100']))
     setups_df = df[setupCondition].copy(deep=True)
     setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Short', setups_df)
-    setups_df['strategy'] = 'S6'
+    setups_df['strategy'] = 'S3'
     setups_df['rank'] = setups_df.groupby('date')['roc3'].rank('dense', ascending=True)
+    setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
     setups_df = setups_df[setups_df['rank'] < 21]
-    posistions_bydate_dfS6 = get_positions_bydate(capital, setups_df, 'Short')
+    posistions_bydate_dfS3 = get_positions_bydate(capital, setups_df, 'Short')
 
-    # posistions_bydate_dfLongs = posistions_bydate_dfL8
-    posistions_bydate_dfLongs = posistions_bydate_dfL3.append([posistions_bydate_dfL6,posistions_bydate_dfL7,posistions_bydate_dfL8], sort = False)
+    '''Strategy L3 Stay with the Trend'''
+    setupCondition = ((df['rsi14'] > 70) & (df['rsi4'] > 80)&  (df['roc6'] > 1) )
+    setups_df = df[setupCondition].copy(deep=True)
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    setups_df['strategy'] = 'L3'
+    setups_df['rank'] = setups_df.groupby('date')['percBB5'].rank('dense', ascending=True)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfL3 = get_positions_bydate(capital, setups_df, 'Long')
+
+    '''Strategy S4 14 day trend continuation'''
+    setupCondition = ( (df['adx14'] < 45)&(df['percBB14'] < .2)& (df['close'] < df['ema100'] )  )
+    setups_df = df[setupCondition].copy(deep=True)
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Short', setups_df)
+    setups_df['strategy'] = 'S4'
+    setups_df['rank'] = setups_df.groupby('date')['percBB14'].rank('dense', ascending=True)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfS4 = get_positions_bydate(capital, setups_df, 'Short')
+
+    '''Strategy L4 14 day trend continuation'''
+    setupCondition = ((df['adx14'] < 45) & (df['percBB14'] > .2) & (df['close'] > df['ema100'])& (df['SPYClose']>df['SPYema100']))  # .15, 1.31
+    setups_df = df[setupCondition].copy(deep=True)
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    setups_df['strategy'] = 'L4'
+    setups_df['rank'] = setups_df.groupby('date')['percBB14'].rank('dense', ascending=False)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfL4 = get_positions_bydate(capital, setups_df, 'Long')
+
+    '''Strategy L5 short term trend continuation'''
+    setupCondition = ( (df['natr50'] < 2)  & (df['rsi3'] > 65)& (df['w_streak'] >=1 )& (df['rsi14'] < df['rsi3'] ))
+    setups_df = df[setupCondition].copy(deep=True)
+    setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    setups_df['strategy'] = 'L5'
+    setups_df['rank'] = setups_df.groupby('date')['roc50'].rank('dense', ascending=True)
+    diagnosis_df = diagnosis_df.append([setups_df], sort=False)
+    setups_df = setups_df[setups_df['rank'] < 21]
+    posistions_bydate_dfL5 = get_positions_bydate(capital, setups_df, 'Long')
+
+    # diagnosis_df.to_csv('diagnosis_df.csv')
+    # '''Strategy S4 Low Price Stock Sell Off'''
+    # setupCondition = ((df['roc6'] > 10) & (df['close'] < 15) & (df['w_streak'] >= 4))
+    # setups_df = df[setupCondition].copy(deep=True)
+    # setups_df = get_shares_perPosition(maxCapPerPos, 100, 'Short', setups_df)
+    # setups_df['strategy'] = 'S4'
+    # setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=False)
+    # setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
+    # setups_df = setups_df[setups_df['rank'] < 11]
+    # posistions_bydate_dfS4 = get_positions_bydate(capital, setups_df, 'Short')
+
+    '''Strategy L4 catch quick trends'''
+    # setupCondition = ((df['close'] > df['sma5']) & (df['rsi4'] > 50) & (df['SPYClose'] > df['SPYema100'])&(df['roc3']<40) ) #.16,1.67 and .18,1.88
+    # setups_df = df[setupCondition].copy(deep=True)
+    # setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
+    # setups_df['strategy'] = 'L4'
+    # setups_df['rank'] = setups_df.groupby('date')['roc3'].rank('dense', ascending=False)
+    # setups_df['longsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
+    # setups_df = setups_df[setups_df['rank'] < 21]
+    # posistions_bydate_dfL4 = get_positions_bydate(capital, setups_df, 'Long')
+
+    # posistions_bydate_dfLongs = posistions_bydate_dfL5
+    posistions_bydate_dfLongs = posistions_bydate_dfL1.append([posistions_bydate_dfL2, posistions_bydate_dfL3, posistions_bydate_dfL4, posistions_bydate_dfL5], sort = False)
     posistions_bydate_dfLongs = posistions_bydate_dfLongs.drop_duplicates(subset=['ticker', 'date'], keep='first')
     posistions_bydate_dfLongs.sort_values(['date', 'rank'], inplace=True, ascending=True)
     posistions_bydate_dfLongs = posistions_bydate_dfLongs[posistions_bydate_dfLongs['rank']<=20]
     posistions_bydate_dfLongs = get_positions_bydate(150000, posistions_bydate_dfLongs, 'Long')
-    #
-    # # posistions_bydate_dfShorts = posistions_bydate_dfS1.append([posistions_bydate_dfS2], sort = False)
-    posistions_bydate_dfShorts = posistions_bydate_dfS1.append([posistions_bydate_dfS2, posistions_bydate_dfS3, posistions_bydate_dfS6, ], sort = False)
-    # posistions_bydate_dfShorts = posistions_bydate_dfS3
+
+    # posistions_bydate_dfShorts = posistions_bydate_dfS1.append([posistions_bydate_dfS2,posistions_bydate_dfS3 ], sort = False)
+    posistions_bydate_dfShorts = posistions_bydate_dfS1.append([posistions_bydate_dfS2, posistions_bydate_dfS3,posistions_bydate_dfS4 ], sort = False)
+    # posistions_bydate_dfShorts = posistions_bydate_dfS4
     posistions_bydate_dfShorts = posistions_bydate_dfShorts.drop_duplicates(subset=['ticker', 'date'], keep='first')
     posistions_bydate_dfShorts.sort_values(['date', 'rank'], inplace=True, ascending=True)
     posistions_bydate_dfShorts = posistions_bydate_dfShorts[posistions_bydate_dfShorts['rank']<=20]
     posistions_bydate_dfShorts = get_positions_bydate(150000, posistions_bydate_dfShorts, 'Short')
 
     posistions_bydate_df = posistions_bydate_dfLongs.append([posistions_bydate_dfShorts], sort = False)
+    # posistions_bydate_df = posistions_bydate_dfShorts
     # posistions_bydate_df = posistions_bydate_dfLongs
     posistions_bydate_df = posistions_bydate_df.drop_duplicates(subset=['ticker', 'date'], keep=False)
 
@@ -638,7 +650,7 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     # print(by_month_pl)
     print('End Time:', dt.datetime.now(), hist_st_date, hist_end_date)
 
-main_method('2010-01-01', '2020-04-28', 'SHARADAR', 'Y')
+main_method('2010-01-01', '2020-04-28', 'SHARADAR', 'N')
 # main_method('1995-01-01', '2020-04-16', 'YAHOO', 'N')
 # main_method('2010-01-01', '2020-04-16', 'YAHOO', 'Y')
 
