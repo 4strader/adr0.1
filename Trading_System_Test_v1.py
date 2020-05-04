@@ -166,12 +166,15 @@ def get_stockhistory(col_list, hist_st_date, hist_end_date, source):
 
     if source == 'YAHOO':
         # sql = '''select {columnStr} from Technical_Indicators_Yahoo_Master418 where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
-        sql = '''select {columnStr} from Technical_Indicators_Yahoo_Master_TBL where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
+        # sql = '''select {columnStr} from Technical_Indicators_Yahoo_Master_TBL where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
+        # sql = '''select {columnStr} from Technical_Indicators_Yahoo_Master where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
+        sql = '''select {columnStr} from Technical_Indicators_Yahoo_Helper where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
     elif source == 'SHARADAR':
         # sql = '''select {columnStr} from Technical_Indicators_Master421 where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
         # sql = '''select {columnStr} from Technical_Indicators_Master418 where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
         # sql = '''select {columnStr} from Technical_Indicators_SHRDR_Master where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
-        sql = '''select {columnStr} from Technical_Indicators_SHRDR_Master_TBL where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
+        # sql = '''select {columnStr} from Technical_Indicators_SHRDR_Master_TBL where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
+        sql = '''select {columnStr} from Technical_Indicators_Master where date >= (?) and date <= (?)'''.format(**sql_dynamic_params)
 
     df_chunks = pd.read_sql_query(sql, conn, params=(hist_st_date, hist_end_date), chunksize=1000000)
 
@@ -578,27 +581,7 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     setups_df = setups_df[setups_df['rank'] < 21]
     posistions_bydate_dfL5 = get_positions_bydate(capital, setups_df, 'Long')
 
-    # diagnosis_df.to_csv('diagnosis_df.csv')
-    # '''Strategy S4 Low Price Stock Sell Off'''
-    # setupCondition = ((df['roc6'] > 10) & (df['close'] < 15) & (df['w_streak'] >= 4))
-    # setups_df = df[setupCondition].copy(deep=True)
-    # setups_df = get_shares_perPosition(maxCapPerPos, 100, 'Short', setups_df)
-    # setups_df['strategy'] = 'S4'
-    # setups_df['rank'] = setups_df.groupby('date')['roc6'].rank('dense', ascending=False)
-    # setups_df['shortsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(max, axis=1)
-    # setups_df = setups_df[setups_df['rank'] < 11]
-    # posistions_bydate_dfS4 = get_positions_bydate(capital, setups_df, 'Short')
-
-    '''Strategy L4 catch quick trends'''
-    # setupCondition = ((df['close'] > df['sma5']) & (df['rsi4'] > 50) & (df['SPYClose'] > df['SPYema100'])&(df['roc3']<40) ) #.16,1.67 and .18,1.88
-    # setups_df = df[setupCondition].copy(deep=True)
-    # setups_df = get_shares_perPosition(maxCapPerPos, maxRiskPerPos, 'Long', setups_df)
-    # setups_df['strategy'] = 'L4'
-    # setups_df['rank'] = setups_df.groupby('date')['roc3'].rank('dense', ascending=False)
-    # setups_df['longsOrderPrice'] = setups_df[['FVNextOpen', 'close']].apply(min, axis=1)
-    # setups_df = setups_df[setups_df['rank'] < 21]
-    # posistions_bydate_dfL4 = get_positions_bydate(capital, setups_df, 'Long')
-
+    # diagnosis_df.to_csv('diagnosis.csv')
     # posistions_bydate_dfLongs = posistions_bydate_dfL5
     posistions_bydate_dfLongs = posistions_bydate_dfL1.append([posistions_bydate_dfL2, posistions_bydate_dfL3, posistions_bydate_dfL4, posistions_bydate_dfL5], sort = False)
     posistions_bydate_dfLongs = posistions_bydate_dfLongs.drop_duplicates(subset=['ticker', 'date'], keep='first')
@@ -642,15 +625,15 @@ def main_method(hist_st_date, hist_end_date, source, hedge):
     write_results_to_db(daily_metrics_df.round(decimals=2), spy_df.round(decimals=2),
                         posistions_bydate_df.round(decimals=2))
     # plot(daily_metrics_df)
-    # returns = daily_metrics_df[['date','dayPL']].copy()
+    returns = daily_metrics_df[['date','dayPL']].copy()
     # plot(returns)
-    # by_month_pl = returns.set_index('date').resample('M').sum()
-    # by_month_pl.to_csv('by_month_returns2010.csv')
+    by_month_pl = returns.set_index('date').resample('M').sum()
+    by_month_pl.to_csv('by_month_returns2010.csv')
     #
     # print(by_month_pl)
     print('End Time:', dt.datetime.now(), hist_st_date, hist_end_date)
 
-main_method('2010-01-01', '2020-04-28', 'SHARADAR', 'N')
-# main_method('1995-01-01', '2020-04-16', 'YAHOO', 'N')
+main_method('2018-01-01', '2020-05-02', 'SHARADAR', 'Y')
+# main_method('1995-01-01', '2020-05-02', 'YAHOO', 'Y')
 # main_method('2010-01-01', '2020-04-16', 'YAHOO', 'Y')
 
